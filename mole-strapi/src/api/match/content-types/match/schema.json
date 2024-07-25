@@ -1,0 +1,72 @@
+{
+  "kind": "collectionType",
+  "collectionName": "matches",
+  "info": {
+    "singularName": "match",
+    "pluralName": "matches",
+    "displayName": "Match",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "group_phase": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::group-phase.group-phase",
+      "inversedBy": "matches"
+    },
+    "home_team": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team.team",
+      "inversedBy": "matches"
+    },
+    "away_team": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team.team",
+      "inversedBy": "matches"
+    },
+    "knock_out_phase": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::knock-out-phase.knock-out-phase",
+      "inversedBy": "matches"
+    },
+    "event_info": {
+      "type": "component",
+      "repeatable": false,
+      "component": "commons.event-info",
+      "required": true
+    },
+    "home_score": {
+      "type": "integer",
+      "default": 0,
+      "required": true,
+      "min": 0
+    },
+    "away_score": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "penalties": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "home_penalties": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "away_penalties": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    }
+  }
+}

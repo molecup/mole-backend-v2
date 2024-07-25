@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "group_phases",
+  "info": {
+    "singularName": "group-phase",
+    "pluralName": "group-phases",
+    "displayName": "Group phase",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "tournament": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::tournament.tournament"
+    },
+    "teams": {
+      "type": "component",
+      "repeatable": true,
+      "component": "relations.team-rank"
+    },
+    "matches": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::match.match",
+      "mappedBy": "group_phase"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    }
+  }
+}

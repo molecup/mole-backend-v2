@@ -1,0 +1,64 @@
+{
+  "kind": "collectionType",
+  "collectionName": "knock_out_phases",
+  "info": {
+    "singularName": "knock-out-phase",
+    "pluralName": "knock-out-phases",
+    "displayName": "Knock-out phase",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "tournament": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::tournament.tournament"
+    },
+    "matches": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::match.match",
+      "mappedBy": "knock_out_phase"
+    },
+    "round_of_16": {
+      "type": "component",
+      "repeatable": true,
+      "component": "relations.knock-out-match",
+      "max": 8
+    },
+    "round_of_8": {
+      "type": "component",
+      "repeatable": true,
+      "component": "relations.knock-out-match",
+      "max": 4
+    },
+    "semifinal": {
+      "type": "component",
+      "repeatable": true,
+      "component": "relations.knock-out-match",
+      "max": 2
+    },
+    "final": {
+      "type": "component",
+      "repeatable": false,
+      "component": "relations.knock-out-match",
+      "required": false
+    },
+    "final_3_4": {
+      "type": "component",
+      "repeatable": false,
+      "component": "relations.knock-out-match"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    }
+  }
+}

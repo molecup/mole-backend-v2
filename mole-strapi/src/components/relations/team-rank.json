@@ -1,0 +1,51 @@
+{
+  "collectionName": "components_relations_team_ranks",
+  "info": {
+    "displayName": "Team rank",
+    "icon": "bulletList",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "team": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::team.team"
+    },
+    "points": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "wins": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "draws": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "losses": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "goal_scored": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "goal_taken": {
+      "type": "integer",
+      "min": 0,
+      "default": 0
+    },
+    "played": {
+      "type": "integer",
+      "min": 0,
+      "default": 0
+    }
+  }
+}

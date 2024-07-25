@@ -1,0 +1,43 @@
+{
+  "collectionName": "components_commons_event_infos",
+  "info": {
+    "displayName": "Event info",
+    "icon": "clock",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "datetime": {
+      "type": "datetime",
+      "required": true
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "registration_link": {
+      "type": "string"
+    },
+    "event_registration": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "programmed",
+        "live",
+        "finished",
+        "delayed",
+        "cancelled"
+      ],
+      "required": true,
+      "default": "programmed"
+    }
+  }
+}
