@@ -801,11 +801,6 @@ export interface ApiGroupPhaseGroupPhase extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    tournament: Attribute.Relation<
-      'api::group-phase.group-phase',
-      'oneToOne',
-      'api::tournament.tournament'
-    >;
     teams: Attribute.Component<'relations.team-rank', true>;
     matches: Attribute.Relation<
       'api::group-phase.group-phase',
@@ -814,6 +809,11 @@ export interface ApiGroupPhaseGroupPhase extends Schema.CollectionType {
     >;
     slug: Attribute.UID<'api::group-phase.group-phase', 'name'> &
       Attribute.Required;
+    tournament: Attribute.Relation<
+      'api::group-phase.group-phase',
+      'manyToOne',
+      'api::tournament-edition.tournament-edition'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -845,11 +845,6 @@ export interface ApiKnockOutPhaseKnockOutPhase extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    tournament: Attribute.Relation<
-      'api::knock-out-phase.knock-out-phase',
-      'oneToOne',
-      'api::tournament.tournament'
-    >;
     matches: Attribute.Relation<
       'api::knock-out-phase.knock-out-phase',
       'oneToMany',
@@ -880,6 +875,11 @@ export interface ApiKnockOutPhaseKnockOutPhase extends Schema.CollectionType {
     final_3_4: Attribute.Component<'relations.knock-out-match'>;
     slug: Attribute.UID<'api::knock-out-phase.knock-out-phase', 'name'> &
       Attribute.Required;
+    tournament: Attribute.Relation<
+      'api::knock-out-phase.knock-out-phase',
+      'oneToOne',
+      'api::tournament-edition.tournament-edition'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1033,9 +1033,18 @@ export interface ApiTournamentTournament extends Schema.CollectionType {
   };
   attributes: {
     Name: Attribute.String;
-    editions: Attribute.Component<'relations.tournament-edition', true>;
     slug: Attribute.UID<'api::tournament.tournament', 'Name'> &
       Attribute.Required;
+    tournament_editions: Attribute.Relation<
+      'api::tournament.tournament',
+      'oneToMany',
+      'api::tournament-edition.tournament-edition'
+    >;
+    main_edition: Attribute.Relation<
+      'api::tournament.tournament',
+      'oneToOne',
+      'api::tournament-edition.tournament-edition'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1047,6 +1056,58 @@ export interface ApiTournamentTournament extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::tournament.tournament',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiTournamentEditionTournamentEdition
+  extends Schema.CollectionType {
+  collectionName: 'tournament_editions';
+  info: {
+    singularName: 'tournament-edition';
+    pluralName: 'tournament-editions';
+    displayName: 'Tournament edition';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    tournament: Attribute.Relation<
+      'api::tournament-edition.tournament-edition',
+      'manyToOne',
+      'api::tournament.tournament'
+    >;
+    private_name: Attribute.String & Attribute.Required & Attribute.Private;
+    title: Attribute.String;
+    slug: Attribute.UID<
+      'api::tournament-edition.tournament-edition',
+      'private_name'
+    >;
+    knock_out_phase: Attribute.Relation<
+      'api::tournament-edition.tournament-edition',
+      'oneToOne',
+      'api::knock-out-phase.knock-out-phase'
+    >;
+    group_phases: Attribute.Relation<
+      'api::tournament-edition.tournament-edition',
+      'oneToMany',
+      'api::group-phase.group-phase'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::tournament-edition.tournament-edition',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::tournament-edition.tournament-edition',
       'oneToOne',
       'admin::user'
     > &
@@ -1077,6 +1138,7 @@ declare module '@strapi/types' {
       'api::match.match': ApiMatchMatch;
       'api::team.team': ApiTeamTeam;
       'api::tournament.tournament': ApiTournamentTournament;
+      'api::tournament-edition.tournament-edition': ApiTournamentEditionTournamentEdition;
     }
   }
 }

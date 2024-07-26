@@ -15,11 +15,6 @@
     "name": {
       "type": "string"
     },
-    "tournament": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::tournament.tournament"
-    },
     "teams": {
       "type": "component",
       "repeatable": true,
@@ -35,6 +30,12 @@
       "type": "uid",
       "targetField": "name",
       "required": true
+    },
+    "tournament": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::tournament-edition.tournament-edition",
+      "inversedBy": "group_phases"
     }
   }
 }

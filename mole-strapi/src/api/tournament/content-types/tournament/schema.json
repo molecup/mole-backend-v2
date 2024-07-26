@@ -15,15 +15,21 @@
     "Name": {
       "type": "string"
     },
-    "editions": {
-      "type": "component",
-      "repeatable": true,
-      "component": "relations.tournament-edition"
-    },
     "slug": {
       "type": "uid",
       "targetField": "Name",
       "required": true
+    },
+    "tournament_editions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tournament-edition.tournament-edition",
+      "mappedBy": "tournament"
+    },
+    "main_edition": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::tournament-edition.tournament-edition"
     }
   }
 }

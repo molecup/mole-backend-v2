@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tournament_editions",
+  "info": {
+    "singularName": "tournament-edition",
+    "pluralName": "tournament-editions",
+    "displayName": "Tournament edition",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "tournament": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::tournament.tournament",
+      "inversedBy": "tournament_editions"
+    },
+    "private_name": {
+      "type": "string",
+      "private": true,
+      "required": true
+    },
+    "title": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "private_name"
+    },
+    "knock_out_phase": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::knock-out-phase.knock-out-phase",
+      "inversedBy": "tournament"
+    },
+    "group_phases": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::group-phase.group-phase",
+      "mappedBy": "tournament"
+    }
+  }
+}
