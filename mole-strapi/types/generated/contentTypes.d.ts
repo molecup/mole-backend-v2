@@ -982,6 +982,7 @@ export interface ApiMatchMatch extends Schema.CollectionType {
       'manyToOne',
       'api::team-edition.team-edition'
     >;
+    hide_event_minutes: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

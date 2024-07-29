@@ -95,6 +95,10 @@
       "relation": "manyToOne",
       "target": "api::team-edition.team-edition",
       "inversedBy": "matches"
+    },
+    "hide_event_minutes": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
