@@ -1106,8 +1106,8 @@ export interface ApiTournamentTournament extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    Name: Attribute.String;
-    slug: Attribute.UID<'api::tournament.tournament', 'Name'> &
+    name: Attribute.String;
+    slug: Attribute.UID<'api::tournament.tournament', 'name'> &
       Attribute.Required;
     tournament_editions: Attribute.Relation<
       'api::tournament.tournament',
@@ -1176,6 +1176,14 @@ export interface ApiTournamentEditionTournamentEdition
       'manyToMany',
       'api::team-edition.team-edition'
     >;
+    year: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 2020;
+          max: 2040;
+        },
+        number
+      >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
