@@ -35,7 +35,6 @@ function computeScoreFromEvents(match_events){
 }
 
 async function updateLeagues(match){
-    console.log(match);
     if (match.group_phase){
         await strapi.service("api::group-phase.ranking").updateRanking(match.group_phase.id);
     }
