@@ -12,13 +12,13 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Name": {
+    "name": {
       "type": "string"
     },
     "slug": {
       "type": "uid",
-      "targetField": "Name",
-      "required": true
+      "required": true,
+      "targetField": "name"
     },
     "tournament_editions": {
       "type": "relation",

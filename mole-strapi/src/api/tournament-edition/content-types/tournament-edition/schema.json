@@ -47,6 +47,11 @@
       "relation": "manyToMany",
       "target": "api::team-edition.team-edition",
       "mappedBy": "tournament_editions"
+    },
+    "year": {
+      "type": "integer",
+      "min": 2020,
+      "max": 2040
     }
   }
 }
