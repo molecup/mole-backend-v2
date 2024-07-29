@@ -931,6 +931,7 @@ export interface ApiMatchMatch extends Schema.CollectionType {
       > &
       Attribute.DefaultTo<0>;
     away_score: Attribute.Integer &
+      Attribute.Required &
       Attribute.SetMinMax<
         {
           min: 0;
