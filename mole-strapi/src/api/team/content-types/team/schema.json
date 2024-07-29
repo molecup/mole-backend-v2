@@ -29,24 +29,21 @@
         "images"
       ]
     },
-    "cover": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
-    "matches": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::match.match",
-      "mappedBy": "away_team"
-    },
     "slug": {
       "type": "uid",
       "targetField": "name",
       "required": true
+    },
+    "team_editions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::team-edition.team-edition",
+      "mappedBy": "team"
+    },
+    "main_edition": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::team-edition.team-edition"
     }
   }
 }

@@ -915,16 +915,6 @@ export interface ApiMatchMatch extends Schema.CollectionType {
       'manyToOne',
       'api::group-phase.group-phase'
     >;
-    home_team: Attribute.Relation<
-      'api::match.match',
-      'manyToOne',
-      'api::team.team'
-    >;
-    away_team: Attribute.Relation<
-      'api::match.match',
-      'manyToOne',
-      'api::team.team'
-    >;
     knock_out_phase: Attribute.Relation<
       'api::match.match',
       'manyToOne',
@@ -967,6 +957,30 @@ export interface ApiMatchMatch extends Schema.CollectionType {
         number
       > &
       Attribute.DefaultTo<0>;
+    home_score_offset: Attribute.Integer &
+      Attribute.Private &
+      Attribute.DefaultTo<0>;
+    away_score_offset: Attribute.Integer &
+      Attribute.Private &
+      Attribute.DefaultTo<0>;
+    score_policy: Attribute.Enumeration<
+      ['events_only', 'offset_only', 'events_offset']
+    > &
+      Attribute.Private &
+      Attribute.DefaultTo<'events_offset'>;
+    match_events: Attribute.DynamicZone<
+      ['match-event.goal', 'match-event.card']
+    >;
+    home_team: Attribute.Relation<
+      'api::match.match',
+      'manyToOne',
+      'api::team-edition.team-edition'
+    >;
+    away_team: Attribute.Relation<
+      'api::match.match',
+      'manyToOne',
+      'api::team-edition.team-edition'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1003,19 +1017,79 @@ export interface ApiTeamTeam extends Schema.CollectionType {
         minLength: 3;
       }>;
     logo: Attribute.Media<'images'>;
-    cover: Attribute.Media<'images'>;
-    matches: Attribute.Relation<
+    slug: Attribute.UID<'api::team.team', 'name'> & Attribute.Required;
+    team_editions: Attribute.Relation<
       'api::team.team',
       'oneToMany',
-      'api::match.match'
+      'api::team-edition.team-edition'
     >;
-    slug: Attribute.UID<'api::team.team', 'name'> & Attribute.Required;
+    main_edition: Attribute.Relation<
+      'api::team.team',
+      'oneToOne',
+      'api::team-edition.team-edition'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::team.team', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::team.team', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiTeamEditionTeamEdition extends Schema.CollectionType {
+  collectionName: 'team_editions';
+  info: {
+    singularName: 'team-edition';
+    pluralName: 'team-editions';
+    displayName: 'Team edition';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    private_name: Attribute.String & Attribute.Private;
+    team: Attribute.Relation<
+      'api::team-edition.team-edition',
+      'manyToOne',
+      'api::team.team'
+    >;
+    tournament_editions: Attribute.Relation<
+      'api::team-edition.team-edition',
+      'manyToMany',
+      'api::tournament-edition.tournament-edition'
+    >;
+    slug: Attribute.UID<'api::team-edition.team-edition', 'private_name'>;
+    cover: Attribute.Media<'images'>;
+    matches: Attribute.Relation<
+      'api::team-edition.team-edition',
+      'oneToMany',
+      'api::match.match'
+    >;
+    year: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 2020;
+          max: 2060;
+        },
+        number
+      >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::team-edition.team-edition',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::team-edition.team-edition',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
   };
 }
@@ -1097,6 +1171,11 @@ export interface ApiTournamentEditionTournamentEdition
       'oneToMany',
       'api::group-phase.group-phase'
     >;
+    team_editions: Attribute.Relation<
+      'api::tournament-edition.tournament-edition',
+      'manyToMany',
+      'api::team-edition.team-edition'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1137,6 +1216,7 @@ declare module '@strapi/types' {
       'api::knock-out-phase.knock-out-phase': ApiKnockOutPhaseKnockOutPhase;
       'api::match.match': ApiMatchMatch;
       'api::team.team': ApiTeamTeam;
+      'api::team-edition.team-edition': ApiTeamEditionTeamEdition;
       'api::tournament.tournament': ApiTournamentTournament;
       'api::tournament-edition.tournament-edition': ApiTournamentEditionTournamentEdition;
     }

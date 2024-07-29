@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_match_event_cards",
+  "info": {
+    "displayName": "Card",
+    "icon": "emotionUnhappy",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "card_type": {
+      "type": "enumeration",
+      "enum": [
+        "yellow",
+        "red"
+      ],
+      "default": "yellow",
+      "required": true
+    },
+    "minute": {
+      "type": "integer",
+      "default": -1
+    },
+    "team": {
+      "type": "enumeration",
+      "enum": [
+        "home_team",
+        "away_team"
+      ],
+      "required": true
+    }
+  }
+}

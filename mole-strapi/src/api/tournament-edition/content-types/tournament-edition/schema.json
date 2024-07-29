@@ -41,6 +41,12 @@
       "relation": "oneToMany",
       "target": "api::group-phase.group-phase",
       "mappedBy": "tournament"
+    },
+    "team_editions": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::team-edition.team-edition",
+      "mappedBy": "tournament_editions"
     }
   }
 }

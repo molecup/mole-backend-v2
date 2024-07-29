@@ -18,18 +18,6 @@
       "target": "api::group-phase.group-phase",
       "inversedBy": "matches"
     },
-    "home_team": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::team.team",
-      "inversedBy": "matches"
-    },
-    "away_team": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::team.team",
-      "inversedBy": "matches"
-    },
     "knock_out_phase": {
       "type": "relation",
       "relation": "manyToOne",
@@ -67,6 +55,45 @@
       "type": "integer",
       "default": 0,
       "min": 0
+    },
+    "home_score_offset": {
+      "type": "integer",
+      "default": 0,
+      "private": true
+    },
+    "away_score_offset": {
+      "type": "integer",
+      "private": true,
+      "default": 0
+    },
+    "score_policy": {
+      "type": "enumeration",
+      "enum": [
+        "events_only",
+        "offset_only",
+        "events_offset"
+      ],
+      "default": "events_offset",
+      "private": true
+    },
+    "match_events": {
+      "type": "dynamiczone",
+      "components": [
+        "match-event.goal",
+        "match-event.card"
+      ]
+    },
+    "home_team": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team-edition.team-edition",
+      "inversedBy": "matches"
+    },
+    "away_team": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team-edition.team-edition",
+      "inversedBy": "matches"
     }
   }
 }

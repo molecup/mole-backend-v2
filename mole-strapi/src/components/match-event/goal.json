@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_match_event_goals",
+  "info": {
+    "displayName": "Goal",
+    "icon": "check",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "penalty": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "minute": {
+      "type": "integer",
+      "default": -1
+    },
+    "team": {
+      "type": "enumeration",
+      "enum": [
+        "home_team",
+        "away_team"
+      ],
+      "required": true
+    }
+  }
+}

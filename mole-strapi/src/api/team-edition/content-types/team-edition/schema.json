@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "team_editions",
+  "info": {
+    "singularName": "team-edition",
+    "pluralName": "team-editions",
+    "displayName": "Team edition",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "private_name": {
+      "type": "string",
+      "private": true
+    },
+    "team": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team.team",
+      "inversedBy": "team_editions"
+    },
+    "tournament_editions": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tournament-edition.tournament-edition",
+      "inversedBy": "team_editions"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "private_name"
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "matches": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::match.match",
+      "mappedBy": "away_team"
+    },
+    "year": {
+      "type": "integer",
+      "min": 2020,
+      "max": 2060
+    }
+  }
+}

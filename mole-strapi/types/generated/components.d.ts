@@ -124,6 +124,40 @@ export interface RelationsKnockOutMatch extends Schema.Component {
   };
 }
 
+export interface MatchEventGoal extends Schema.Component {
+  collectionName: 'components_match_event_goals';
+  info: {
+    displayName: 'Goal';
+    icon: 'check';
+    description: '';
+  };
+  attributes: {
+    penalty: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    minute: Attribute.Integer & Attribute.DefaultTo<-1>;
+    team: Attribute.Enumeration<['home_team', 'away_team']> &
+      Attribute.Required;
+  };
+}
+
+export interface MatchEventCard extends Schema.Component {
+  collectionName: 'components_match_event_cards';
+  info: {
+    displayName: 'Card';
+    icon: 'emotionUnhappy';
+    description: '';
+  };
+  attributes: {
+    card_type: Attribute.Enumeration<['yellow', 'red']> &
+      Attribute.Required &
+      Attribute.DefaultTo<'yellow'>;
+    minute: Attribute.Integer & Attribute.DefaultTo<-1>;
+    team: Attribute.Enumeration<['home_team', 'away_team']> &
+      Attribute.Required;
+  };
+}
+
 export interface CommonsEventInfo extends Schema.Component {
   collectionName: 'components_commons_event_infos';
   info: {
@@ -152,6 +186,8 @@ declare module '@strapi/types' {
       'relations.tournament-edition': RelationsTournamentEdition;
       'relations.team-rank': RelationsTeamRank;
       'relations.knock-out-match': RelationsKnockOutMatch;
+      'match-event.goal': MatchEventGoal;
+      'match-event.card': MatchEventCard;
       'commons.event-info': CommonsEventInfo;
     }
   }
