@@ -1,32 +1,5 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
-export interface RelationsTournamentEdition extends Schema.Component {
-  collectionName: 'components_relations_tournament_editions';
-  info: {
-    displayName: 'tournament edition';
-    icon: 'calendar';
-    description: '';
-  };
-  attributes: {
-    name: Attribute.String & Attribute.Required;
-    group_phases: Attribute.Relation<
-      'relations.tournament-edition',
-      'oneToMany',
-      'api::group-phase.group-phase'
-    >;
-    knock_out_phase: Attribute.Relation<
-      'relations.tournament-edition',
-      'oneToOne',
-      'api::knock-out-phase.knock-out-phase'
-    >;
-    teams: Attribute.Relation<
-      'relations.tournament-edition',
-      'oneToMany',
-      'api::team.team'
-    >;
-  };
-}
-
 export interface RelationsTeamRank extends Schema.Component {
   collectionName: 'components_relations_team_ranks';
   info: {
@@ -38,9 +11,9 @@ export interface RelationsTeamRank extends Schema.Component {
     team: Attribute.Relation<
       'relations.team-rank',
       'oneToOne',
-      'api::team.team'
+      'api::team-edition.team-edition'
     >;
-    points: Attribute.Integer &
+    pts: Attribute.Integer &
       Attribute.SetMinMax<
         {
           min: 0;
@@ -96,6 +69,14 @@ export interface RelationsTeamRank extends Schema.Component {
         number
       > &
       Attribute.DefaultTo<0>;
+    rank: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
+    private_name: Attribute.String & Attribute.Private;
   };
 }
 
@@ -104,17 +85,18 @@ export interface RelationsKnockOutMatch extends Schema.Component {
   info: {
     displayName: 'knock out match';
     icon: 'crown';
+    description: '';
   };
   attributes: {
     team_a: Attribute.Relation<
       'relations.knock-out-match',
       'oneToOne',
-      'api::team.team'
+      'api::team-edition.team-edition'
     >;
     team_b: Attribute.Relation<
       'relations.knock-out-match',
       'oneToOne',
-      'api::team.team'
+      'api::team-edition.team-edition'
     >;
     matches: Attribute.Relation<
       'relations.knock-out-match',
@@ -183,7 +165,6 @@ export interface CommonsEventInfo extends Schema.Component {
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
-      'relations.tournament-edition': RelationsTournamentEdition;
       'relations.team-rank': RelationsTeamRank;
       'relations.knock-out-match': RelationsKnockOutMatch;
       'match-event.goal': MatchEventGoal;

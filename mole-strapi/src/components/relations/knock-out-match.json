@@ -2,19 +2,20 @@
   "collectionName": "components_relations_knock_out_matches",
   "info": {
     "displayName": "knock out match",
-    "icon": "crown"
+    "icon": "crown",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "team_a": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::team.team"
+      "target": "api::team-edition.team-edition"
     },
     "team_b": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::team.team"
+      "target": "api::team-edition.team-edition"
     },
     "matches": {
       "type": "relation",

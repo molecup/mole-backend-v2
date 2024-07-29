@@ -10,9 +10,9 @@
     "team": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::team.team"
+      "target": "api::team-edition.team-edition"
     },
-    "points": {
+    "pts": {
       "type": "integer",
       "default": 0,
       "min": 0
@@ -46,6 +46,14 @@
       "type": "integer",
       "min": 0,
       "default": 0
+    },
+    "rank": {
+      "type": "integer",
+      "min": 1
+    },
+    "private_name": {
+      "type": "string",
+      "private": true
     }
   }
 }
