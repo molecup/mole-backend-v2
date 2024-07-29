@@ -34,6 +34,17 @@ function computeScoreFromEvents(match_events){
     return score;
 }
 
+async function updateLeagues(match){
+    console.log(match);
+    if (match.group_phase){
+        await strapi.service("api::group-phase.ranking").updateRanking(match.group_phase.id);
+    }
+
+    if (match.knock_out_phase){
+        
+    }
+}
+
 module.exports = ({strapi}) => ({
     async updateScore(entityId){
         const score = {
@@ -45,6 +56,8 @@ module.exports = ({strapi}) => ({
             fields: ["score_policy", "away_score_offset", "home_score_offset", "away_score", "home_score"],
             populate: {
                 match_events: true,
+                group_phase: true,
+                knock_out_phase: true,
             }
         });
         
@@ -67,8 +80,30 @@ module.exports = ({strapi}) => ({
                     ...score
                 }
             });
+
+            
         }
 
+        await updateLeagues(match);
+
     },
+
+    computeWinner(match){
+        if(match.home_score > match.away_score){
+            return "home";
+        }
+        if(match.home_score < match.away_score){
+            return "away";
+        }
+        if(match.home_score === match.away_score){
+            if(!match.penalties){
+                return "draw";
+            }
+            if(match.home_penalties > match.away_penalties){
+                return "home"
+            }
+            return "away"
+        }
+    }
     
 });
