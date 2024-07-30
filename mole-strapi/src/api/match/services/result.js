@@ -40,7 +40,7 @@ async function updateLeagues(match){
     }
 
     if (match.knock_out_phase){
-        
+        await strapi.service("api::knock-out-phase.ranking").updateMatches(match.knock_out_phase.id);
     }
 }
 
