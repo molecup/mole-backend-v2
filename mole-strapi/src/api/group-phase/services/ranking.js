@@ -18,21 +18,6 @@ module.exports = ({strapi}) => ({
      * @param {number} entityId
      */
     async updateRanking(entityId){
-        const matches = await strapi.entityService.findMany("api::match.match", {
-            fields: ["home_score", "away_score", "home_penalties", "away_penalties", "penalties"],
-            filter: {
-                group_phase: entityId
-            },
-            populate: {
-                home_team: {
-                    fields: [],
-                },
-                away_team: {
-                    fields: [],
-                },
-            }
-        });
-        
         const group = await strapi.entityService.findOne("api::group-phase.group-phase", entityId, {
             fields: [],
             populate: {
@@ -44,6 +29,20 @@ module.exports = ({strapi}) => ({
                         }
                     }
                 },
+                matches: {
+                    fields: ["home_score", "away_score", "home_penalties", "away_penalties", "penalties"],
+                    populate: {
+                        home_team: {
+                            fields: [],
+                        },
+                        away_team: {
+                            fields: [],
+                        },
+                        event_info: {
+                            fields: ["status"]
+                        }
+                    }
+                }
             }
         });
 
@@ -61,11 +60,12 @@ module.exports = ({strapi}) => ({
             }
         });
 
-        matches.forEach(match => {
+        group.matches.filter(match => match.event_info.status === "finished" || match.event_info.status === "live")
+                    .forEach(match => {
             const home = ranking[match.home_team.id];
             const away = ranking[match.away_team.id];
             if(!home || !away){
-                throw new errors.ApplicationError("Both teams of a match must be part of the group phase")
+                throw new errors.ApplicationError("Both teams of a match must be part of the group phase. Match id:" + match.id)
             }
             home.played ++;
             away.played ++;
