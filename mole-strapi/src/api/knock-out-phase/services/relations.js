@@ -30,7 +30,7 @@ async function connectStageMatch(entityId, kop, roundName){
             matches: {
                 set: getMatchIds(stage.team_a.id, stage.team_b.id, kop.matches)
             }
-        }))
+        }));
         await strapi.entityService.update("api::knock-out-phase.knock-out-phase", entityId, {
             data: {
                 [roundName] : updateStagesQuery
@@ -93,7 +93,7 @@ module.exports = ({strapi}) => ({
         const kop = await strapi.entityService.findOne("api::knock-out-phase.knock-out-phase", entityId, query);
 
         for(var roundName of roundNames){
-            await connectStageMatch(entityId, kop, roundName)
+            await connectStageMatch(entityId, kop, roundName);
         }
         
     },
