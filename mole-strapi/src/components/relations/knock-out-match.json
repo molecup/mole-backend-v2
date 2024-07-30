@@ -31,6 +31,12 @@
       ],
       "default": "none",
       "required": true
+    },
+    "autocompute_winner": {
+      "type": "boolean",
+      "default": true,
+      "private": true,
+      "required": true
     }
   }
 }

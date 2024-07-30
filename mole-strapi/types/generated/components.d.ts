@@ -106,6 +106,10 @@ export interface RelationsKnockOutMatch extends Schema.Component {
     winner: Attribute.Enumeration<['none', 'team_a', 'team_b']> &
       Attribute.Required &
       Attribute.DefaultTo<'none'>;
+    autocompute_winner: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.Private &
+      Attribute.DefaultTo<true>;
   };
 }
 
