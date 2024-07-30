@@ -34,16 +34,6 @@ function computeScoreFromEvents(match_events){
     return score;
 }
 
-async function updateLeagues(match){
-    if (match.group_phase){
-        await strapi.service("api::group-phase.ranking").updateRanking(match.group_phase.id);
-    }
-
-    if (match.knock_out_phase){
-        await strapi.service("api::knock-out-phase.ranking").updateMatches(match.knock_out_phase.id);
-    }
-}
-
 module.exports = ({strapi}) => ({
     async updateScore(entityId){
         const score = {
@@ -82,8 +72,6 @@ module.exports = ({strapi}) => ({
 
             
         }
-
-        await updateLeagues(match);
 
     },
 
