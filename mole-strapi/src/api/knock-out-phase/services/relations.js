@@ -59,7 +59,7 @@ module.exports = ({strapi}) => ({
     /**
      * @param {any} entityId
      */
-    async updateMatches(entityId){
+    async updateMatchRelations(entityId){
         /* define base query*/
         const query = {
             fields: [],

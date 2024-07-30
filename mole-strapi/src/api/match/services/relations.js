@@ -30,7 +30,7 @@ module.exports = ({strapi}) => ({
             }
         
             if (ids.knock_out_phase_id){
-                await strapi.service("api::knock-out-phase.relations").updateMatches(ids.knock_out_phase_id);
+                await strapi.service("api::knock-out-phase.relations").updateMatchRelations(ids.knock_out_phase_id);
             }
         }
         const ids = await this.getPhaseIds(entityId);
