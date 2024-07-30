@@ -21,6 +21,16 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::match.match"
+    },
+    "winner": {
+      "type": "enumeration",
+      "enum": [
+        "none",
+        "team_a",
+        "team_b"
+      ],
+      "default": "none",
+      "required": true
     }
   }
 }

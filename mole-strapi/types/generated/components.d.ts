@@ -103,6 +103,9 @@ export interface RelationsKnockOutMatch extends Schema.Component {
       'oneToMany',
       'api::match.match'
     >;
+    winner: Attribute.Enumeration<['none', 'team_a', 'team_b']> &
+      Attribute.Required &
+      Attribute.DefaultTo<'none'>;
   };
 }
 
