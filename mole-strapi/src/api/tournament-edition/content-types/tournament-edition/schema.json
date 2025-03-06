@@ -52,6 +52,17 @@
       "type": "integer",
       "min": 2020,
       "max": 2040
+    },
+    "SEO": {
+      "type": "component",
+      "repeatable": false,
+      "component": "commons.seo"
+    },
+    "article_tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article-tag.article-tag",
+      "mappedBy": "tournaments"
     }
   }
 }

@@ -99,6 +99,16 @@
     "hide_event_minutes": {
       "type": "boolean",
       "default": false
+    },
+    "SEO": {
+      "type": "component",
+      "repeatable": false,
+      "component": "commons.seo"
+    },
+    "privateName": {
+      "type": "string",
+      "private": true,
+      "unique": false
     }
   }
 }

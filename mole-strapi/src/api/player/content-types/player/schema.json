@@ -1,0 +1,68 @@
+{
+  "kind": "collectionType",
+  "collectionName": "players",
+  "info": {
+    "singularName": "player",
+    "pluralName": "players",
+    "displayName": "Player",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "lastName": {
+      "type": "string",
+      "required": true,
+      "maxLength": 32
+    },
+    "firstName": {
+      "type": "string",
+      "maxLength": 32
+    },
+    "birth": {
+      "type": "date"
+    },
+    "shirtNumber": {
+      "type": "integer",
+      "max": 99,
+      "min": 1,
+      "required": false
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "captain": {
+      "type": "boolean",
+      "default": false
+    },
+    "role": {
+      "type": "enumeration",
+      "enum": [
+        "portiere",
+        "difensore",
+        "centrocampista",
+        "attaccante",
+        "nessuno"
+      ],
+      "default": "nessuno"
+    },
+    "uniqueName": {
+      "type": "uid",
+      "targetField": "lastName",
+      "required": true
+    },
+    "player_list": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::player-list.player-list",
+      "inversedBy": "players"
+    }
+  }
+}

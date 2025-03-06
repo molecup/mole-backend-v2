@@ -423,6 +423,7 @@ export interface PluginUploadFile extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+    placeholder: Attribute.Text;
   };
 }
 
@@ -590,6 +591,53 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -741,46 +789,104 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
+export interface ApiArticleArticle extends Schema.CollectionType {
+  collectionName: 'articles';
   info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
+    singularName: 'article';
+    pluralName: 'articles';
+    displayName: 'Article';
   };
   options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
+    draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 60;
+      }>;
+    content: Attribute.RichText;
+    author: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 60;
+      }>;
+    date: Attribute.Date;
+    cover: Attribute.Media<'images'>;
+    abstract: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    slug: Attribute.UID<'api::article.article', 'title'> &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 32;
+      }>;
+    externalArticle: Attribute.Boolean & Attribute.DefaultTo<false>;
+    externalLink: Attribute.String;
+    article_tags: Attribute.Relation<
+      'api::article.article',
+      'manyToMany',
+      'api::article-tag.article-tag'
+    >;
+    SEO: Attribute.Component<'commons.seo'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::article.article',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::article.article',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiArticleTagArticleTag extends Schema.CollectionType {
+  collectionName: 'article_tags';
+  info: {
+    singularName: 'article-tag';
+    pluralName: 'article-tags';
+    displayName: 'articleTag';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required & Attribute.Unique;
+    teams: Attribute.Relation<
+      'api::article-tag.article-tag',
+      'manyToMany',
+      'api::team-edition.team-edition'
+    >;
+    tournaments: Attribute.Relation<
+      'api::article-tag.article-tag',
+      'manyToMany',
+      'api::tournament-edition.tournament-edition'
+    >;
+    articles: Attribute.Relation<
+      'api::article-tag.article-tag',
+      'manyToMany',
+      'api::article.article'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::article-tag.article-tag',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::article-tag.article-tag',
       'oneToOne',
       'admin::user'
     > &
@@ -983,6 +1089,8 @@ export interface ApiMatchMatch extends Schema.CollectionType {
       'api::team-edition.team-edition'
     >;
     hide_event_minutes: Attribute.Boolean & Attribute.DefaultTo<false>;
+    SEO: Attribute.Component<'commons.seo'>;
+    privateName: Attribute.String & Attribute.Private;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -993,6 +1101,107 @@ export interface ApiMatchMatch extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::match.match',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPlayerPlayer extends Schema.CollectionType {
+  collectionName: 'players';
+  info: {
+    singularName: 'player';
+    pluralName: 'players';
+    displayName: 'Player';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    lastName: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 32;
+      }>;
+    firstName: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 32;
+      }>;
+    birth: Attribute.Date;
+    shirtNumber: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 99;
+        },
+        number
+      >;
+    image: Attribute.Media<'images'>;
+    captain: Attribute.Boolean & Attribute.DefaultTo<false>;
+    role: Attribute.Enumeration<
+      ['portiere', 'difensore', 'centrocampista', 'attaccante', 'nessuno']
+    > &
+      Attribute.DefaultTo<'nessuno'>;
+    uniqueName: Attribute.UID<'api::player.player', 'lastName'> &
+      Attribute.Required;
+    player_list: Attribute.Relation<
+      'api::player.player',
+      'manyToOne',
+      'api::player-list.player-list'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::player.player',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::player.player',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPlayerListPlayerList extends Schema.CollectionType {
+  collectionName: 'player_lists';
+  info: {
+    singularName: 'player-list';
+    pluralName: 'player-lists';
+    displayName: 'playerList';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    privateName: Attribute.String & Attribute.Required & Attribute.Unique;
+    team_editions: Attribute.Relation<
+      'api::player-list.player-list',
+      'oneToMany',
+      'api::team-edition.team-edition'
+    >;
+    players: Attribute.Relation<
+      'api::player-list.player-list',
+      'oneToMany',
+      'api::player.player'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::player-list.player-list',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::player-list.player-list',
       'oneToOne',
       'admin::user'
     > &
@@ -1078,6 +1287,17 @@ export interface ApiTeamEditionTeamEdition extends Schema.CollectionType {
         },
         number
       >;
+    SEO: Attribute.Component<'commons.seo'>;
+    article_tags: Attribute.Relation<
+      'api::team-edition.team-edition',
+      'manyToMany',
+      'api::article-tag.article-tag'
+    >;
+    player_list: Attribute.Relation<
+      'api::team-edition.team-edition',
+      'manyToOne',
+      'api::player-list.player-list'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1121,6 +1341,7 @@ export interface ApiTournamentTournament extends Schema.CollectionType {
       'oneToOne',
       'api::tournament-edition.tournament-edition'
     >;
+    logo: Attribute.Media<'images'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1186,6 +1407,12 @@ export interface ApiTournamentEditionTournamentEdition
         },
         number
       >;
+    SEO: Attribute.Component<'commons.seo'>;
+    article_tags: Attribute.Relation<
+      'api::tournament-edition.tournament-edition',
+      'manyToMany',
+      'api::article-tag.article-tag'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1218,13 +1445,17 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
+      'api::article.article': ApiArticleArticle;
+      'api::article-tag.article-tag': ApiArticleTagArticleTag;
       'api::group-phase.group-phase': ApiGroupPhaseGroupPhase;
       'api::knock-out-phase.knock-out-phase': ApiKnockOutPhaseKnockOutPhase;
       'api::match.match': ApiMatchMatch;
+      'api::player.player': ApiPlayerPlayer;
+      'api::player-list.player-list': ApiPlayerListPlayerList;
       'api::team.team': ApiTeamTeam;
       'api::team-edition.team-edition': ApiTeamEditionTeamEdition;
       'api::tournament.tournament': ApiTournamentTournament;

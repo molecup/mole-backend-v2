@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_commons_seos",
+  "info": {
+    "displayName": "SEO",
+    "icon": "feather",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "keywords": {
+      "type": "string"
+    },
+    "preventIndexing": {
+      "type": "boolean",
+      "default": false
+    },
+    "metaTitle": {
+      "type": "string",
+      "minLength": 60
+    },
+    "metaDescription": {
+      "type": "string",
+      "minLength": 155
+    },
+    "shareImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "generateAutomatically": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

@@ -50,6 +50,23 @@
       "type": "integer",
       "min": 2020,
       "max": 2060
+    },
+    "SEO": {
+      "type": "component",
+      "repeatable": false,
+      "component": "commons.seo"
+    },
+    "article_tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article-tag.article-tag",
+      "mappedBy": "teams"
+    },
+    "player_list": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::player-list.player-list",
+      "inversedBy": "team_editions"
     }
   }
 }

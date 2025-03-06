@@ -30,6 +30,13 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::tournament-edition.tournament-edition"
+    },
+    "logo": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

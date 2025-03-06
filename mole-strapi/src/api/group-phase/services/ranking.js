@@ -65,7 +65,8 @@ module.exports = ({strapi}) => ({
             const home = ranking[match.home_team.id];
             const away = ranking[match.away_team.id];
             if(!home || !away){
-                throw new errors.ApplicationError("Both teams of a match must be part of the group phase. Match id:" + match.id)
+                //await strapi.entityService.delete('api::match.match', match.id);
+                throw new errors.ApplicationError("Both teams of a match must be part of the group phase. Match id:" + match.id);
             }
             home.played ++;
             away.played ++;

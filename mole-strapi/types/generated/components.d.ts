@@ -147,6 +147,29 @@ export interface MatchEventCard extends Schema.Component {
   };
 }
 
+export interface CommonsSeo extends Schema.Component {
+  collectionName: 'components_commons_seos';
+  info: {
+    displayName: 'SEO';
+    icon: 'feather';
+    description: '';
+  };
+  attributes: {
+    keywords: Attribute.String;
+    preventIndexing: Attribute.Boolean & Attribute.DefaultTo<false>;
+    metaTitle: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        minLength: 60;
+      }>;
+    metaDescription: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        minLength: 155;
+      }>;
+    shareImage: Attribute.Media<'images'>;
+    generateAutomatically: Attribute.Boolean & Attribute.DefaultTo<true>;
+  };
+}
+
 export interface CommonsEventInfo extends Schema.Component {
   collectionName: 'components_commons_event_infos';
   info: {
@@ -176,6 +199,7 @@ declare module '@strapi/types' {
       'relations.knock-out-match': RelationsKnockOutMatch;
       'match-event.goal': MatchEventGoal;
       'match-event.card': MatchEventCard;
+      'commons.seo': CommonsSeo;
       'commons.event-info': CommonsEventInfo;
     }
   }

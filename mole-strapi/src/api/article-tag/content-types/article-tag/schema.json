@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "article_tags",
+  "info": {
+    "singularName": "article-tag",
+    "pluralName": "article-tags",
+    "displayName": "articleTag"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "teams": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::team-edition.team-edition",
+      "inversedBy": "article_tags"
+    },
+    "tournaments": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tournament-edition.tournament-edition",
+      "inversedBy": "article_tags"
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article",
+      "mappedBy": "article_tags"
+    }
+  }
+}
