@@ -127,6 +127,11 @@ export interface MatchEventGoal extends Schema.Component {
     minute: Attribute.Integer & Attribute.DefaultTo<-1>;
     team: Attribute.Enumeration<['home_team', 'away_team']> &
       Attribute.Required;
+    player: Attribute.Relation<
+      'match-event.goal',
+      'oneToOne',
+      'api::player.player'
+    >;
   };
 }
 
@@ -144,6 +149,11 @@ export interface MatchEventCard extends Schema.Component {
     minute: Attribute.Integer & Attribute.DefaultTo<-1>;
     team: Attribute.Enumeration<['home_team', 'away_team']> &
       Attribute.Required;
+    player: Attribute.Relation<
+      'match-event.card',
+      'oneToOne',
+      'api::player.player'
+    >;
   };
 }
 
@@ -179,7 +189,6 @@ export interface CommonsEventInfo extends Schema.Component {
   };
   attributes: {
     datetime: Attribute.DateTime & Attribute.Required;
-    cover: Attribute.Media<'images'>;
     registration_link: Attribute.String;
     event_registration: Attribute.Boolean &
       Attribute.Required &
@@ -189,6 +198,11 @@ export interface CommonsEventInfo extends Schema.Component {
     > &
       Attribute.Required &
       Attribute.DefaultTo<'programmed'>;
+    stadium: Attribute.Relation<
+      'commons.event-info',
+      'oneToOne',
+      'api::stadium.stadium'
+    >;
   };
 }
 

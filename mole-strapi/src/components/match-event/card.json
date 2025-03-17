@@ -27,6 +27,11 @@
         "away_team"
       ],
       "required": true
+    },
+    "player": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::player.player"
     }
   }
 }

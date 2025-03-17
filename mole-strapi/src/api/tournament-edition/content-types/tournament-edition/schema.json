@@ -24,11 +24,13 @@
       "required": true
     },
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "slug": {
       "type": "uid",
-      "targetField": "private_name"
+      "targetField": "private_name",
+      "required": true
     },
     "knock_out_phase": {
       "type": "relation",
@@ -63,6 +65,18 @@
       "relation": "manyToMany",
       "target": "api::article-tag.article-tag",
       "mappedBy": "tournaments"
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "subtitle": {
+      "type": "string",
+      "maxLength": 32
     }
   }
 }

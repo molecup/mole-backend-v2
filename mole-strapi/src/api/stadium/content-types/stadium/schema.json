@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "stadiums",
+  "info": {
+    "singularName": "stadium",
+    "pluralName": "stadiums",
+    "displayName": "Stadium"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "location": {
+      "type": "customField",
+      "customField": "plugin::google-maps.location-picker"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    }
+  }
+}

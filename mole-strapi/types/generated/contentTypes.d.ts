@@ -591,6 +591,46 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginGoogleMapsConfig extends Schema.SingleType {
+  collectionName: 'google_maps_configs';
+  info: {
+    singularName: 'config';
+    pluralName: 'configs';
+    displayName: 'Google Maps Config';
+  };
+  options: {
+    populateCreatorFields: false;
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    googleMapsKey: Attribute.String &
+      Attribute.Required &
+      Attribute.DefaultTo<''>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::google-maps.config',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::google-maps.config',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginI18NLocale extends Schema.CollectionType {
   collectionName: 'i18n_locale';
   info: {
@@ -795,6 +835,7 @@ export interface ApiArticleArticle extends Schema.CollectionType {
     singularName: 'article';
     pluralName: 'articles';
     displayName: 'Article';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -825,7 +866,7 @@ export interface ApiArticleArticle extends Schema.CollectionType {
         maxLength: 32;
       }>;
     externalArticle: Attribute.Boolean & Attribute.DefaultTo<false>;
-    externalLink: Attribute.String;
+    externalArticleLink: Attribute.String;
     article_tags: Attribute.Relation<
       'api::article.article',
       'manyToMany',
@@ -1091,6 +1132,7 @@ export interface ApiMatchMatch extends Schema.CollectionType {
     hide_event_minutes: Attribute.Boolean & Attribute.DefaultTo<false>;
     SEO: Attribute.Component<'commons.seo'>;
     privateName: Attribute.String & Attribute.Private;
+    cover: Attribute.Media<'images'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1209,6 +1251,39 @@ export interface ApiPlayerListPlayerList extends Schema.CollectionType {
   };
 }
 
+export interface ApiStadiumStadium extends Schema.CollectionType {
+  collectionName: 'stadiums';
+  info: {
+    singularName: 'stadium';
+    pluralName: 'stadiums';
+    displayName: 'Stadium';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    location: Attribute.JSON &
+      Attribute.CustomField<'plugin::google-maps.location-picker'>;
+    slug: Attribute.UID<'api::stadium.stadium', 'name'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::stadium.stadium',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::stadium.stadium',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiTeamTeam extends Schema.CollectionType {
   collectionName: 'teams';
   info: {
@@ -1274,11 +1349,6 @@ export interface ApiTeamEditionTeamEdition extends Schema.CollectionType {
     >;
     slug: Attribute.UID<'api::team-edition.team-edition', 'private_name'>;
     cover: Attribute.Media<'images'>;
-    matches: Attribute.Relation<
-      'api::team-edition.team-edition',
-      'oneToMany',
-      'api::match.match'
-    >;
     year: Attribute.Integer &
       Attribute.SetMinMax<
         {
@@ -1297,6 +1367,16 @@ export interface ApiTeamEditionTeamEdition extends Schema.CollectionType {
       'api::team-edition.team-edition',
       'manyToOne',
       'api::player-list.player-list'
+    >;
+    matches_h: Attribute.Relation<
+      'api::team-edition.team-edition',
+      'oneToMany',
+      'api::match.match'
+    >;
+    matches_a: Attribute.Relation<
+      'api::team-edition.team-edition',
+      'oneToMany',
+      'api::match.match'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1379,11 +1459,12 @@ export interface ApiTournamentEditionTournamentEdition
       'api::tournament.tournament'
     >;
     private_name: Attribute.String & Attribute.Required & Attribute.Private;
-    title: Attribute.String;
+    title: Attribute.String & Attribute.Required;
     slug: Attribute.UID<
       'api::tournament-edition.tournament-edition',
       'private_name'
-    >;
+    > &
+      Attribute.Required;
     knock_out_phase: Attribute.Relation<
       'api::tournament-edition.tournament-edition',
       'oneToOne',
@@ -1413,6 +1494,11 @@ export interface ApiTournamentEditionTournamentEdition
       'manyToMany',
       'api::article-tag.article-tag'
     >;
+    cover: Attribute.Media<'images'>;
+    subtitle: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 32;
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1445,6 +1531,7 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::google-maps.config': PluginGoogleMapsConfig;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
@@ -1456,6 +1543,7 @@ declare module '@strapi/types' {
       'api::match.match': ApiMatchMatch;
       'api::player.player': ApiPlayerPlayer;
       'api::player-list.player-list': ApiPlayerListPlayerList;
+      'api::stadium.stadium': ApiStadiumStadium;
       'api::team.team': ApiTeamTeam;
       'api::team-edition.team-edition': ApiTeamEditionTeamEdition;
       'api::tournament.tournament': ApiTournamentTournament;

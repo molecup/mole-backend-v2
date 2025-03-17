@@ -4,7 +4,8 @@
   "info": {
     "singularName": "article",
     "pluralName": "articles",
-    "displayName": "Article"
+    "displayName": "Article",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -28,11 +29,12 @@
       "type": "date"
     },
     "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "abstract": {
       "type": "text",
@@ -50,7 +52,7 @@
       "type": "boolean",
       "default": false
     },
-    "externalLink": {
+    "externalArticleLink": {
       "type": "string"
     },
     "article_tags": {

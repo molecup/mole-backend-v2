@@ -40,12 +40,6 @@
         "images"
       ]
     },
-    "matches": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::match.match",
-      "mappedBy": "away_team"
-    },
     "year": {
       "type": "integer",
       "min": 2020,
@@ -67,6 +61,18 @@
       "relation": "manyToOne",
       "target": "api::player-list.player-list",
       "inversedBy": "team_editions"
+    },
+    "matches_h": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::match.match",
+      "mappedBy": "home_team"
+    },
+    "matches_a": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::match.match",
+      "mappedBy": "away_team"
     }
   }
 }

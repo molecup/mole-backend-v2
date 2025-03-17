@@ -11,14 +11,6 @@
       "type": "datetime",
       "required": true
     },
-    "cover": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
     "registration_link": {
       "type": "string"
     },
@@ -38,6 +30,11 @@
       ],
       "required": true,
       "default": "programmed"
+    },
+    "stadium": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::stadium.stadium"
     }
   }
 }
