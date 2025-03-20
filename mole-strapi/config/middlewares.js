@@ -49,7 +49,6 @@ module.exports = [
             'res.cloudinary.com',
             'light-bubble-1191f54152.media.strapiapp.com',
           ],
-          upgradeInsecureRequests: null,
         },
       },
     },
