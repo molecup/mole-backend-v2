@@ -17,6 +17,7 @@ module.exports = [
             'https://maps.googleapis.com',
             'dl.airtable.com', 
             'res.cloudinary.com',
+            'light-bubble-1191f54152.media.strapiapp.com',
           ],
           'img-src': [
             "'self'",
@@ -46,6 +47,7 @@ module.exports = [
             'market-assets.strapi.io',
             'dl.airtable.com', 
             'res.cloudinary.com',
+            'light-bubble-1191f54152.media.strapiapp.com',
           ],
           upgradeInsecureRequests: null,
         },
