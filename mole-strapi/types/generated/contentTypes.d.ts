@@ -961,6 +961,9 @@ export interface ApiGroupPhaseGroupPhase extends Schema.CollectionType {
       'manyToOne',
       'api::tournament-edition.tournament-edition'
     >;
+    hide_table: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

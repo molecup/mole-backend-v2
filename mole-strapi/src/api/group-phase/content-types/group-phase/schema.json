@@ -36,6 +36,11 @@
       "relation": "manyToOne",
       "target": "api::tournament-edition.tournament-edition",
       "inversedBy": "group_phases"
+    },
+    "hide_table": {
+      "type": "boolean",
+      "default": false,
+      "required": true
     }
   }
 }
